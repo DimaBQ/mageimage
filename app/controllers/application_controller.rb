@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
-
-	before_action :configure_permitted_parameters, if:  :devise_controller?
-
+	
+#Give permission for add user's name
+  before_action :configure_permitted_parameters, if:  :devise_controller?
 
 protected
 

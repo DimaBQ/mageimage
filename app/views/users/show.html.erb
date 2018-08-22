@@ -1,5 +1,6 @@
 <div class="info_current_user">
 <p><%= @user.first_name %> <%= @user.last_name %></p>
+<%= link_to 'Редактировать профиль', edit_user_registration_path, class: "btn btn-primary" %>
 </div>
 
 <div class="messages">
@@ -11,6 +12,29 @@
 </div>
 
 <div class="posts">
+
+	<h3>Add post:</h3>
+		<%= form_with(model: [ @user, @user.posts.build], local: true) do |form| %>
+
+		<%= form.hidden_field(:current_user, first_name: current_user.first_name) %>
+
+		<%= form.label :body  %>
+		<%= form.text_field :body %>
 	
+		<%= form.submit %>
+	
+
+		<% end %>
+
+	<% if current_user.posts.empty? %>
+		<h2>Посты отсутсвуют</h2>
+	<% else %>	
+		<% current_user.posts do |post| %>
+			<%= post.first_name %>
+			<%= post.body %>
+		<% end %>
+	<% end %>
+
+
 </div>
 
