@@ -1,0 +1,44 @@
+<div class="info_current_user">
+<p><%= current_user.first_name %> <%= current_user.last_name %></p>
+<%= link_to 'Редактировать профиль', edit_user_registration_path, class: "btn btn-primary" %>
+</div>
+
+<div class="messages">
+	
+</div>
+
+<div class="friends">
+	
+</div>
+
+<div class="posts">
+
+	<h3>Add post:</h3>
+		<%= form_with(model: [ @account, @account.posts.build], local: true ) do |form| %>
+
+
+		<%= form.label :body  %>
+		<%= form.text_field :body %>
+	
+		<%= form.submit %>
+		<% end %>
+
+<hr>
+	<% if @account.posts.empty? %>
+			<hr>
+
+		<h2>Посты отсутсвуют</h2>
+
+			<hr>
+	<% else %>	
+
+		<% @account.posts.each do |post| %>
+			<p><%= post.user_first_name %></p>
+			<%= post.body %>
+			<hr>
+		<% end %>
+
+	<% end %>
+
+
+</div>

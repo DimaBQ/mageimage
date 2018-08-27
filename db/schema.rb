@@ -10,13 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_22_141139) do
+ActiveRecord::Schema.define(version: 2018_08_22_152046) do
 
   create_table "accounts", force: :cascade do |t|
-    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -43,6 +41,8 @@ ActiveRecord::Schema.define(version: 2018_08_22_141139) do
     t.datetime "updated_at", null: false
     t.string "first_name"
     t.string "last_name"
+    t.integer "account_id"
+    t.index ["account_id"], name: "index_users_on_account_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

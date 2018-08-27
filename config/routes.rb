@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
+	
+  root 'accounts#show'
+
   devise_for :users
-  resources :users do
+
+  resources :accounts do
     resources :posts
   end 
-  root 'users#show'
 
   
 end
