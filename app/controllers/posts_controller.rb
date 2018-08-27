@@ -8,13 +8,17 @@ class PostsController < ApplicationController
 		@account = Account.find(params[:account_id])
 		@post = @account.posts.create(create_params)
 		@post.user = current_user
-		redirect_to account_path(@account)
+		if @post.save
+			redirect_to account_path(@account)
+		
+
+		end
 	end
 
 	private
 
 	def create_params
-		params.require(:post).permit(:user_id, :body)
+		params.require(:post).permit(:user, :body)
 	end
 
 end
