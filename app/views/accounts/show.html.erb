@@ -1,6 +1,8 @@
 <div class="info_current_user">
-<p><%= current_user.first_name %> <%= current_user.last_name %></p>
+<p><%= @user.first_name %> <%= @user.last_name %></p>
+<% if @user.account == current_user.account %>
 <%= link_to 'Редактировать профиль', edit_user_registration_path, class: "btn btn-primary" %>
+<% end %>
 </div>
 
 <div class="messages">
@@ -24,21 +26,16 @@
 		<% end %>
 
 <hr>
-	<% if @account.posts.empty? %>
-			<hr>
 
-		<h2>Посты отсутсвуют</h2>
-
-			<hr>
-	<% else %>	
 
 		<% @account.posts.each do |post| %>
+			<% unless post.user_first_name.nil? %>
 			<p><%= post.user_first_name %></p>
 			<%= post.body %>
+			<%= link_to "Удалить комментарий",[post.account, post] , method: :delete, data: {confirm: "are you confirm?"} %>
 			<hr>
+			<% end %>
 		<% end %>
-
-	<% end %>
 
 
 </div>

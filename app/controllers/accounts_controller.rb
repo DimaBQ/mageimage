@@ -12,12 +12,15 @@ class AccountsController < ApplicationController
 				@user.account = @account
 				@user.save
 				@account.save
-				redirect_to current_user_path
+				redirect_to current_user_path(current_user)
 			end
 	end
 
-	def show 
-		@account = Account.find(3)
+	def show
+			create if current_user.account.nil?
+			@user = User.find(params[:id])
+			@account_id = @user.account_id
+			@account = Account.find_by(id: @account_id)
 	end
 
 

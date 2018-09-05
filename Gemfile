@@ -68,3 +68,8 @@ gem 'carrierwave', '~> 1.0'
 gem 'bootstrap', '~> 4.1.3'
 
 gem 'jquery-rails'
+
+group :test do
+  gem 'rspec-rails'
+  gem 'factory_girl'
+end
