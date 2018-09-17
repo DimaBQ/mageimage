@@ -69,7 +69,12 @@ gem 'bootstrap', '~> 4.1.3'
 
 gem 'jquery-rails'
 
-group :test do
-  gem 'rspec-rails'
-  gem 'factory_girl'
+
+
+
+gem 'mailboxer'
+
+group :development, :test do
+  gem 'rspec-rails', '~> 3.8'
+  gem 'factory_bot'
 end
