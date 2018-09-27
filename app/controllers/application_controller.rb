@@ -1,14 +1,18 @@
 class ApplicationController < ActionController::Base
-	
+	before_action :authenticate_user!
 #Give permission for add user's name
   before_action :configure_permitted_parameters, if:  :devise_controller?
-
+	#sign_in_and_redirect @user
 
 protected
 
   def after_sign_in_path_for(resource)
-  	account_path(current_user.id)
+    account_path(current_user.account_id)
   end
+
+  #def after_update_path_for(resource)
+  #	current_user.account
+  #end
 
   def configure_permitted_parameters
 

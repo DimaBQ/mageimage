@@ -1,12 +1,20 @@
+
 <div class="info_current_user">
-<p><%= @user.first_name %> <%= @user.last_name %></p>
-<% if @user.account == current_user.account %>
-<%= link_to 'Редактировать профиль', edit_user_registration_path, class: "btn btn-primary" %>
-<% end %>
+
+	<p><%= @user.first_name %> <%= @user.last_name %></p>
+	<% if @user.account == current_user.account %>
+	<%= link_to 'Редактировать профиль', edit_user_registration_path, class: "btn btn-primary" %>
+	<% end %>
+	
 </div>
 
 <div class="messages">
-	
+	<h1>All conversations</h1>
+<% @account.mailbox.conversations.each do |conversation| %>
+	<div>
+		<%= link_to conversation.subject, conversation_path(conversation) %>
+	</div>
+<% end %>
 </div>
 
 <div class="friends">
@@ -25,12 +33,12 @@
 		<%= form.submit %>
 		<% end %>
 
-<hr>
+	<hr>
 
 
 		<% @account.posts.each do |post| %>
 			<% unless post.user_first_name.nil? %>
-			<p><%= post.user_first_name %></p>
+			<p><%= post.user.first_name + ' ' + post.user.last_name %></p>
 			<%= post.body %>
 			<%= link_to "Удалить комментарий",[post.account, post] , method: :delete, data: {confirm: "are you confirm?"} %>
 			<hr>

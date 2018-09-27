@@ -1,28 +1,19 @@
 class PostsController < ApplicationController
+	before_action :find_account
 
-
-	def show
-		
-	end
 
 	def create
-		@account = Account.find(params[:account_id])
 		@post = @account.posts.create(create_params)
 		@post.user = current_user
-		@user = @account.user.id
 		if @post.save
-			redirect_to account_path(@user)
-		
-
+			redirect_to account_path(@account)
 		end
 	end
 
 	def destroy
-		@account = Account.find(params[:account_id])
 		@post = @account.posts.find(params[:id])
-		@user = @account.user.id
 		if @post.destroy
-			redirect_to account_path(@user)
+			redirect_to account_path(@account)
 
 		end
 
@@ -30,9 +21,15 @@ class PostsController < ApplicationController
 
 	private
 
+	def find_account
+		@account = Account.find(params[:account_id])
+	end
+
+
+
 
 	def create_params
-		params.require(:post).permit(:body)
+		params.require(:post).permit(:user_id, :account_id, :body)
 	end
 
 end
