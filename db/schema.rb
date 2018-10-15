@@ -10,11 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_05_175261) do
+ActiveRecord::Schema.define(version: 2018_10_11_174943) do
 
   create_table "accounts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "friend_invitations", force: :cascade do |t|
+    t.integer "account_id"
+    t.text "invitations_list"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_friend_invitations_on_account_id"
+  end
+
+  create_table "friends", force: :cascade do |t|
+    t.integer "account_id"
+    t.text "people_list", default: ","
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_friends_on_account_id"
   end
 
   create_table "mailboxer_conversation_opt_outs", force: :cascade do |t|

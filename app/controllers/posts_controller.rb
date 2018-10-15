@@ -16,7 +16,6 @@ class PostsController < ApplicationController
 			redirect_to account_path(@account)
 
 		end
-
 	end
 
 	private

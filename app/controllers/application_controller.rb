@@ -10,9 +10,6 @@ protected
     account_path(current_user.account_id)
   end
 
-  #def after_update_path_for(resource)
-  #	current_user.account
-  #end
 
   def configure_permitted_parameters
 

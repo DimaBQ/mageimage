@@ -1,0 +1,8 @@
+<% @account.friend.people_list.split(',').each do |i| %>  
+		<% if i.include?('requested') %>
+	<div>
+		<% i = i.delete('requested') %>
+		<%= link_to Account.find(i).name, account_path(i) %>
+		<% end %>
+	</div>
+<% end %>

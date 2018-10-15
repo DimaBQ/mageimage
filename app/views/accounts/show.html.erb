@@ -3,47 +3,58 @@
 
 	<p><%= @user.first_name %> <%= @user.last_name %></p>
 	<% if @user.account == current_user.account %>
-	<%= link_to 'Редактировать профиль', edit_user_registration_path, class: "btn btn-primary" %>
+		<%= link_to 'Редактировать профиль', edit_user_registration_path, class: "btn btn-primary" %>
+
+		<div class="messages">
+			<h1>Чаты:</h1>
+				<% render @account.mailbox.conversations %>	
+		</div>
+
+	<% else %>
+
+			
+		<% if current_user.account.friend.people_list.split(',').include?("requested" + @user.account_id.to_s)  %>
+
+				<%= form_for :friend, :url => {:action=>"update", :controller=>"friends"}, :html => {:class => "nifty_form", :method => "PATCH"} do |f| %>
+				<%= f.hidden_field "people_list", :value => (current_user.account.friend.people_list.split(',').delete_if{|x| x == "requested"+@user.account_id.to_s}).join(',') %>
+				<%= f.submit "Запрошено(отписаться)" %>
+				<% end %>
+
+		<% elsif current_user.account.friend.people_list.split(',').include?(@user.account_id.to_s) %>
+	
+
+				<%= form_for :friend, :url => {:action=>"update", :controller=>"friends"}, :html => {:class => "nifty_form", :method => "PATCH"} do |f| %>
+				<%= f.hidden_field "people_list", :value => (current_user.account.friend.people_list.split(',').delete_if{|x| x == @user.account_id}).join(',') %>
+				<%= f.submit "Удалить из друзей" %>
+				<% end %>
+
+		<% else %>
+
+				<%= form_for :friend, :url => {:action=>"update", :controller=>"friends"}, :html => {:class => "nifty_form", :method => "PATCH"} do |f| %>
+				<%= f.hidden_field "people_list", :value => (current_user.account.friend.people_list.split(',') << "requested"+@user.account_id.to_s).join(',') %>
+				<%= f.submit "Добавить в друзья" %>
+				<% end %>
+
+		<% end %>
+
 	<% end %>
 	
 </div>
 
-<div class="messages">
-	<h1>All conversations</h1>
-<% @account.mailbox.conversations.each do |conversation| %>
-	<div>
-		<%= link_to conversation.subject, conversation_path(conversation) %>
-	</div>
-<% end %>
-</div>
 
 <div class="friends">
-	
+
+	<h3>Список подписок:</h3>
+		<%= render @account.friend %>
+	<h3>Список друзей:</h3>
+		<%= render 'friends/subscribed' %>
+				 
 </div>
 
 <div class="posts">
 
-	<h3>Add post:</h3>
-		<%= form_with(model: [ @account, @account.posts.build], local: true ) do |form| %>
-
-
-		<%= form.label :body  %>
-		<%= form.text_field :body %>
-	
-		<%= form.submit %>
-		<% end %>
-
+	<h3>Все посты:</h3>
+		<%= render 'posts/form' %>
 	<hr>
-
-
-		<% @account.posts.each do |post| %>
-			<% unless post.user_first_name.nil? %>
-			<p><%= post.user.first_name + ' ' + post.user.last_name %></p>
-			<%= post.body %>
-			<%= link_to "Удалить комментарий",[post.account, post] , method: :delete, data: {confirm: "are you confirm?"} %>
-			<hr>
-			<% end %>
-		<% end %>
-
-
+		<%= render @account.posts %>
 </div>
